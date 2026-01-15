@@ -1,0 +1,40 @@
+h1{
+    color: white;
+}
+
+.playButton {
+    border-radius: 20px;
+    border: 2px solid white;
+    width: 50%;
+    padding: 0;             
+    text-align: center;
+    font-size: 20px;
+}
+
+#startBtn {
+    display: block;         
+    width: 96%;
+    padding: 2%;
+    text-decoration: none;   
+    color: white;
+    border-radius: 18px;    
+    
+}
+
+.playButton:hover #startBtn {
+    background-color: rgb(2, 136, 0);
+    cursor: pointer;
+    background-image: url("images/snake.png");
+    background-size:cover;        /* füllt den Bildschirm */
+    background-position: center;   /* zentriert */
+    background-repeat: no-repeat;  /* nicht kacheln */ 
+    color: white;
+}
+
+body {
+    background-color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
