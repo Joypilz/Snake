@@ -16,11 +16,19 @@ type GameObject = SnakeSegment | Food;
 const tiles = 20; // Gridgröße
 const tileSize = 20; // Pixelgröße
 
+
 // Array aller Objekte
 let gameObjects: GameObject[] = [
     { type: "snake", position: { x: 10, y: 10 } },
     { type: "food", position: { x: 5, y: 5 } }
 ];
+
+// Snake
+let snakeHead = gameObjects[0];
+let snakeTail = gameObjects[0];
+let snakeSegments: SnakeSegment[] = gameObjects.filter(
+    obj => obj.type === "snake"
+) as SnakeSegment[];
 
 // Canvas Setup
 const canvas = document.getElementById("board") as HTMLCanvasElement;
@@ -37,8 +45,6 @@ function getRandomPosition(max: number): Vec2 {
         y: Math.floor(Math.random() * max)
     };
 }
-
-// --------------------- Platzhalterfunktionen ---------------------
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -57,11 +63,45 @@ function draw() {
 }
 
 function moveSnake() {
-    // TODO: Snake Position ändern
+    if (!snakeHead || !gameObjects) return;
+
+    const newHead: SnakeSegment = {
+        type: "snake",
+        position: {
+            x: snakeHead.position.x + direction.x,
+            y: snakeHead.position.y + direction.y
+        }
+    };
+
+    gameObjects.unshift(newHead);
+    snakeTail
+    snakeHead = newHead;
+}
+
+
+function checkWallCollision(head: Vec2): boolean {
+    return head.x < 0 || head.y < 0 || head.x >= tiles || head.y >= tiles;
+}
+
+function checkSelfCollision(head: Vec2, snakeBody: SnakeSegment[]): boolean {
+    // Überspringe das erste Segment (Kopf)
+    return snakeBody.slice(1).some(segment =>
+        segment.position.x === head.x && segment.position.y === head.y
+    );
 }
 
 function checkCollisions() {
-    // TODO: Kollision mit Wand oder sich selbst prüfen
+    if (!snakeHead) return;
+    
+    if (checkWallCollision(snakeHead.position)) {
+        alert("Game Over! Snake hat die Wand getroffen.");
+        location.reload();
+    }
+
+   if (checkSelfCollision(snakeHead.position, snakeSegments)) {
+        alert("Game Over! Snake hat sich selbst getroffen.");
+        location.reload();
+    }
 }
 
 function checkFood() {
