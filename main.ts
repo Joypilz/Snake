@@ -84,13 +84,28 @@ function gameLoop() {
 
 // StartGame mit Countdown
 function startGame() {
-    let countdown = 3;
+    const countdown = document.getElementById("countdown");
+    if (!countdown) { 
+        console.error("Countdown-Element nicht gefunden!");
+        return;
+    }
+
+    let timeLeft = 3;
+    countdown.textContent = timeLeft.toString();
+
     const timer = setInterval(() => {
-        console.log(countdown); // Kannst du auch ins HTML schreiben
-        countdown--;
-        if (countdown < 0) {
+        timeLeft--;
+        console.log(timeLeft);
+        if (timeLeft > 0) {
+            countdown.textContent = timeLeft.toString();
+        } else {
+            countdown.textContent = "GO!";
             clearInterval(timer);
-            gameLoop();
+
+            setTimeout(() => {
+                countdown.style.display = "none"; // Timer verstecken
+                gameLoop(); // Spiel starten
+            }, 500);
         }
     }, 1000);
 }
@@ -104,6 +119,4 @@ window.addEventListener("keydown", (e) => {
         case "ArrowRight": direction = { x: 1, y: 0 }; break;
     }
 });
-
-// --------------------- Game Start ---------------------
 startGame();

@@ -39,7 +39,7 @@ body {
     align-items: center;
 }
 
-#canvas{
+#board{
     width: 100%;
     border: 2px solid white;
 }
