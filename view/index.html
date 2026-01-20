@@ -8,11 +8,31 @@
 </head>
 <body>
     <h1>Snake</h1>
-    <div class="playButton">
+    <div class="playButton" id="playButton">
         <a href="game.html" id="startBtn">Play</a>
+    </div>
+    <div id="lastScore">
+        Last Score = 0
     </div>
 
     
-    
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            // Letzten Score aus localStorage anzeigen
+            const lastScoreEl = document.getElementById("lastScore");
+            const lastScore = localStorage.getItem("lastScore");
+            if (lastScore && lastScoreEl) {
+                lastScoreEl.textContent = `Letzter Score: ${lastScore}`;
+            }
+
+            // Start-Button
+            const startBtn = document.getElementById("startBtn");
+            startBtn?.addEventListener("click", () => {
+                localStorage.removeItem("lastScore"); // optional Score zurücksetzen
+                window.location.href = "game.html";   // zur Spiel-Seite wechseln
+            });
+        });
+    </script>
 </body>
+
 </html>
